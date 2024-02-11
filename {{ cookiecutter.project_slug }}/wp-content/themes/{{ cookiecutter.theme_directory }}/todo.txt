@@ -1,0 +1,10 @@
+- Add fonts to style.css
+- Add colors to style.css
+- Add fonts to theme.json
+- Add colors to theme.json
+- Create template-parts as needed (do this first to ensure they are decoupled from templates)
+- Create header & footer templates
+- Create page templates as needed
+- Create post templates as needed
+- Set favicon in customizer
+- Generate favicon package using https://realfavicongenerator.net/

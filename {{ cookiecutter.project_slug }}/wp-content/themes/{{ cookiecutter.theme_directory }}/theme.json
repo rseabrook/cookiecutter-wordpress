@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"slug": "dark-blue",
+					"color": "#7492B7",
+					"name": "Dark Blue"
+				}
+			]
+		},
+		"layout": {
+            "contentSize": "840px",
+            "wideSize": "1100px"
+        },
+		"typography": {
+			"fontFamilies": [
+                {
+					"name": "Cormorant Garamond",
+					"slug": "cormorant-garamond",
+					"fontFamily": "'Cormorant Garamond', serif",
+					"fontFace": [
+						{
+							"fontFamily": "Cormorant Garamond",
+							"fontWeight": "300 800",
+							"fontStyle": "normal",
+							"fontStretch": "normal",
+							"src": [ "file:./assets/fonts/CormorantGaramond-Regular.woff2" ]
+						},
+						{
+							"fontFamily": "Cormorant Garamond",
+							"fontWeight": "300 800",
+							"fontStyle": "italic",
+							"fontStretch": "normal",
+							"src": [ "file:./assets/fonts/CormorantGaramond-Italic.woff2" ]
+						}
+					]
+				}
+			],
+			"lineHeight": true
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+		}
+	}
+}

@@ -1,0 +1,7 @@
+{
+    "project_name": "Cookiecutter Wordpress",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+    "theme_directory": "{{ cookiecutter.project_name.lower().replace(' ', '') }}",
+    "theme_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "author": "Anonymous"
+}

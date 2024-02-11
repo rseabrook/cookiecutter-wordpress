@@ -1,0 +1,79 @@
+/*
+Theme Name: {{ cookiecutter.project_name }}
+Theme URI: https://blogcto.com/projects/{{ cookiecutter.project_slug }}
+Author: Richard Seabrook (BlogCTO)
+Author URI: https://blogcto.com
+Description: A custom-built theme for {{ cookiecutter.project_name }}
+Requires at least: 6.1
+Tested up to: 6.2
+Requires PHP: 5.6
+Version: 1.0
+Text Domain: {{ cookiecutter.theme_slug }}
+*/
+
+/*----------------------------------------------------------------------------
+	
+	Fonts
+	
+----------------------------------------------------------------------------*/
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('assets/fonts/CormorantGaramond-Regular.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    src: url('assets/fonts/CormorantGaramond-Italic.woff2') format('woff2');
+}
+/* TODO: Add theme fonts here */
+@font-face {
+    font-family: 'gadabout-icons';
+    src: url('assets/fonts/gadabout-icons.woff2?73546164') format('woff2');
+}
+
+/*----------------------------------------------------------------------------
+	
+	Variables
+	
+----------------------------------------------------------------------------*/
+:root {
+
+    --font-cormorant-garamond: 'Cormorant Garamond';
+    /* TODO: Add theme font variables here */
+    --font-icons: 'gadabout-icons';
+
+    --theme-color-cream: #F8F6F2;
+    /* TODO: Add theme colors here */
+}
+
+/*----------------------------------------------------------------------------
+	
+	General
+	
+----------------------------------------------------------------------------*/
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.aligncenter {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*----------------------------------------------------------------------------
+	
+	Template Parts
+	
+----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+	
+	Header
+	
+----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+	
+	Footer
+	
+----------------------------------------------------------------------------*/
