@@ -3,5 +3,8 @@
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "theme_directory": "{{ cookiecutter.project_name.lower().replace(' ', '') }}",
     "theme_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-    "author": "Anonymous"
+    "author": "Anonymous",
+    "_copy_without_render": [
+        "*.js"
+    ]
 }
