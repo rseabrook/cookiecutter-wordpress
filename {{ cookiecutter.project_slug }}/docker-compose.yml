@@ -1,7 +1,8 @@
 version: "3"
 services:
     db:
-        image: mysql:5.7
+        image: mysql
+        platform: linux/x86_64
         restart: always
         volumes:
             - db_data:/var/lib/mysql
