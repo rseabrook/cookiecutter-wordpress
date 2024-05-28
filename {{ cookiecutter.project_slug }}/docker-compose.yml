@@ -1,7 +1,3 @@
-# Version of the Compose file format
-# Version 3 is the most current and recommended one
-version: "3"
-
 # Top building block that defines
 # All containers used for this service
 services:
@@ -19,7 +15,6 @@ services:
         # Named volume, allows persisted data but without caring where locally it is stored
         # https://nickjanetakis.com/blog/docker-tip-28-named-volumes-vs-path-based-volumes
         volumes:
-            - ./database:/docker-entrypoint-initdb.d
             - db_data:/var/lib/mysql
         # Add environment variables
         # https://docs.docker.com/compose/compose-file/#environment
