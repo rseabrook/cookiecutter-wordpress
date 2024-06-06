@@ -25,6 +25,9 @@ services:
             WORDPRESS_DB_HOST: db:3306
             WORDPRESS_DB_USER: wordpress
             WORDPRESS_DB_PASSWORD: wordpress
+            WORDPRESS_DEBUG: 1
+            WORDPRESS_CONFIG_EXTRA: |
+                define('WP_DEBUG_LOG', true );
         ports:
             - 80:80
             - 443:443
