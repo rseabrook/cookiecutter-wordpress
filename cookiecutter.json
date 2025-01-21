@@ -5,6 +5,7 @@
     "theme_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "author": "Anonymous",
     "_copy_without_render": [
-        "*.js"
+        "*.js",
+        "*plugins"
     ]
 }
