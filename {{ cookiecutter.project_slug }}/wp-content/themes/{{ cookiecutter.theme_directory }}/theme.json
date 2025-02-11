@@ -15,6 +15,11 @@
             "contentSize": "840px",
             "wideSize": "1100px"
         },
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
 		"typography": {
 			"fontFamilies": [
                 {
