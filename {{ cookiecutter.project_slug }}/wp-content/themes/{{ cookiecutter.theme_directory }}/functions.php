@@ -103,3 +103,24 @@ function {{ cookiecutter.theme_slug }}_change_posts_per_page( $query ) {
 	}
 }
 add_filter( 'pre_get_posts', '{{ cookiecutter.theme_slug }}_change_posts_per_page' );
+
+/*-------------------------------------------------------------------------------------
+	
+	Custom Block Styles
+	
+-------------------------------------------------------------------------------------*/
+function {{ cookiecutter.theme_slug }}_enqueue_block_assets() {
+    wp_enqueue_style(
+        '{{ cookiecutter.theme_slug }}-block-styles',
+        get_stylesheet_directory_uri() . '/assets/css/blocks.css',
+    );
+}
+add_action( 'enqueue_block_assets', '{{ cookiecutter.theme_slug }}_enqueue_block_assets' );
+
+function {{ cookiecutter.theme_slug }}_register_block_styles() {
+	register_block_style( 'core/paragraph', array(
+		'name' => 'cormorant-garamond-12',
+		'label' => __( 'Cormorant Garamond 10px', '{{ cookiecutter.theme_slug }}' ),
+	) );
+}
+add_action( 'init', '{{ cookiecutter.theme_slug }}_register_block_styles' );

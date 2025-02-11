@@ -1,0 +1,24 @@
+:root {
+    --font-cormorant-garamond: 'Cormorant Garamond';
+    --font-icons: 'gadabout-icons';
+    /* TODO: Add theme fonts here */
+
+    --theme-color-cream: #F8F6F2;
+    /* TODO: Add theme colors here */
+}
+
+.entry-content p.is-style-cormorant-garamond-12,
+.editor-styles-wrapper p.is-style-cormorant-garamond-12 {
+    font-family: var(--font-cormorant-garamond);
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+@media screen and (min-width: 576px) {
+    .entry-content p.is-style-cormorant-garamond-12,
+    .editor-styles-wrapper p.is-style-cormorant-garamond-12 {
+        font-family: var(--font-cormorant-garamond);
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+}
