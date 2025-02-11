@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying the home page.
+ * The template for displaying a static home page.
  *
  * @link https://codex.wordpress.org/Template_Hierarchy
  *
