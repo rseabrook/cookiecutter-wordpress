@@ -2,6 +2,10 @@
 - Add colors to style.css
 - Add fonts to theme.json
 - Add colors to theme.json
+- Create menus in WP Admin
+- Create pages in WP Admin
+- Create CPTs in ACF
+- Create options in ACF
 - Create template-parts as needed (do this first to ensure they are decoupled from templates)
 - Create header & footer templates
 - Create page templates as needed
