@@ -2,6 +2,86 @@
 	$(document).ready(function(){
 		/*-------------------------------------
 			
+			Animations
+			
+		-------------------------------------*/
+		// Enable prefetch plugin - preloads pages on hover
+		if (typeof barbaPrefetch !== 'undefined') {
+			barba.use(barbaPrefetch);
+		}
+
+		/**
+		 * Fade out the current container
+		 */
+		function fadeOut(container) {
+			return gsap.to(container, {
+				autoAlpha: 0,
+				duration: 1.75,
+				ease: 'power2.inOut'
+			});
+		}
+
+		/**
+		 * Fade in the new container after all images have loaded
+		 */
+		function fadeIn(container) {
+			gsap.set(container, { autoAlpha: 0 });
+
+			const imgLoad = imagesLoaded(container);
+
+			return imgLoad.on('done', () => {
+				return gsap.to(container, {
+					autoAlpha: 1,
+					duration: 1.75,
+					ease: 'power2.inOut'
+				});
+			});
+		}
+
+		barba.init({
+			transitions: [{
+				name: 'fade-transition',
+				leave: ({ current }) => {
+					// Close drawer at the same time as fade out
+					if (jQuery('.drawer').hasClass('active')) {
+						jQuery('.toggler').removeClass('active');
+						jQuery('.drawer').fadeOut().removeClass('active');
+						jQuery('body').removeClass('active');
+					}
+					return fadeOut(current.container);
+				},
+				enter: ({ next }) => {
+					fadeIn(next.container);
+				}
+			}]
+		});
+
+		barba.hooks.beforeEnter((data) => {
+			// Reset scroll position while container is hidden
+			window.scrollTo(0, 0);
+
+			// Add new elements to the head that are not in the current head
+			const elementExistsInArray = (element, array) =>
+				array.some((el) => el.isEqualNode(element));
+		
+			const nextDocument = new DOMParser().parseFromString(data.next.html, 'text/html');
+			const newHeadElements = [...nextDocument.head.children];
+			const currentHeadElements = [...document.head.children];
+		
+			// Add new elements that are not in the current head
+			newHeadElements.forEach((newEl) => {
+				if (!elementExistsInArray(newEl, currentHeadElements)) {
+					document.head.appendChild(newEl.cloneNode(true));
+				}
+			});
+		});
+
+		barba.hooks.afterEnter(() => {
+			// Re-initialize scripts that may have been destroyed by the transition
+		});
+
+		/*-------------------------------------
+			
 			Nav Drawer
 			
 		-------------------------------------*/
