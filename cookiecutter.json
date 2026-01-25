@@ -6,6 +6,7 @@
     "enable_animations": true,
     "author": "Anonymous",
     "_copy_without_render": [
-        "*plugins"
+        "*plugins",
+        "**/assets/js/vendor/**"
     ]
 }
