@@ -1,10 +1,13 @@
 (function($){	
 	$(document).ready(function(){
+		{% if cookiecutter.enable_animations %}
 		/*-------------------------------------
 			
 			Animations
 			
 		-------------------------------------*/
+		// TODO: Figure out a better way to integrate barba/gsap animations with existing nav drawer, etc scripts.
+
 		// Enable prefetch plugin - preloads pages on hover
 		if (typeof barbaPrefetch !== 'undefined') {
 			barba.use(barbaPrefetch);
@@ -63,11 +66,11 @@
 			// Add new elements to the head that are not in the current head
 			const elementExistsInArray = (element, array) =>
 				array.some((el) => el.isEqualNode(element));
-		
+
 			const nextDocument = new DOMParser().parseFromString(data.next.html, 'text/html');
 			const newHeadElements = [...nextDocument.head.children];
 			const currentHeadElements = [...document.head.children];
-		
+
 			// Add new elements that are not in the current head
 			newHeadElements.forEach((newEl) => {
 				if (!elementExistsInArray(newEl, currentHeadElements)) {
@@ -79,6 +82,7 @@
 		barba.hooks.afterEnter(() => {
 			// Re-initialize scripts that may have been destroyed by the transition
 		});
+		{% endif %}
 
 		/*-------------------------------------
 			
