@@ -3,9 +3,10 @@
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "theme_directory": "{{ cookiecutter.project_name.lower().replace(' ', '') }}",
     "theme_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "enable_animations": true,
     "author": "Anonymous",
     "_copy_without_render": [
-        "*.js",
-        "*plugins"
+        "*plugins",
+        "**/assets/js/vendor/**"
     ]
 }
