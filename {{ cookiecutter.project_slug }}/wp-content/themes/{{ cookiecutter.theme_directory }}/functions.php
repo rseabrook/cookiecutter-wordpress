@@ -92,6 +92,54 @@ function {{ cookiecutter.theme_slug }}_body_classes( $classes )
 }
 add_filter('body_class', '{{ cookiecutter.theme_slug }}_body_classes');
 
+{% if cookiecutter.enable_animations %}
+/**
+ * Get the Barba.js namespace for the current page.
+ *
+ * @return string The namespace identifier for Barba transitions.
+ */
+function {{ cookiecutter.theme_slug }}_get_barba_namespace() {
+	if ( is_front_page() ) {
+		return 'front-page';
+	}
+
+	if ( is_home() ) {
+		return 'home';
+	}
+
+	if ( is_singular() ) {
+		global $post;
+		if ( $post->post_type === 'page' ) {
+			return 'page-' . $post->post_name;
+		}
+		return $post->post_type;
+	}
+
+	if ( is_post_type_archive() ) {
+		return 'archive-' . get_query_var( 'post_type' );
+	}
+
+	if ( is_tax() || is_category() || is_tag() ) {
+		$term = get_queried_object();
+		return 'archive-' . $term->taxonomy;
+	}
+
+	if ( is_archive() ) {
+		return 'archive';
+	}
+
+	if ( is_search() ) {
+		return 'search';
+	}
+
+	if ( is_404() ) {
+		return '404';
+	}
+
+	return 'default';
+}
+{% endif %}
+
 /**
  * Disable Contact Form 7 from auto-adding <p> tags to each input
  */

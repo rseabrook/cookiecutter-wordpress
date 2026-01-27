@@ -18,7 +18,7 @@
 
         <?php wp_head(); ?>
     </head>
-    <body <?php body_class(); ?>>
+    <body <?php body_class(); ?>{% if cookiecutter.enable_animations %} data-barba="wrapper"{% endif %}>
         <?php if (is_front_page()) { ?>
             <div class="loading-screen">
                 <div class="logo">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div id="page" class="site">
+        <div id="page" class="site"{% if cookiecutter.enable_animations %} data-barba="container" data-barba-namespace="<?php echo {{ cookiecutter.theme_slug }}_get_barba_namespace(); ?>"{% endif %}>
             <header id="masthead" class="header" role="banner">
                 <div class="container-fluid">
                     <div class="row">
