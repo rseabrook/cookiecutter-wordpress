@@ -59,6 +59,23 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+{% if cookiecutter.enable_animations %}
+.page-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    background: var(--page-transition-overlay-bg, var(--theme-color-cream, #fff));
+}
+.page-transition-overlay__inner {
+    pointer-events: none;
+}
+{% endif %}
 
 /*----------------------------------------------------------------------------
 	

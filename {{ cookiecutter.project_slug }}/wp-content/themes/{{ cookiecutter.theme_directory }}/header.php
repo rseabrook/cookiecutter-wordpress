@@ -19,6 +19,11 @@
         <?php wp_head(); ?>
     </head>
     <body <?php body_class(); ?>{% if cookiecutter.enable_animations %} data-barba="wrapper"{% endif %}>
+        {% if cookiecutter.enable_animations %}
+            <div class="page-transition-overlay" aria-hidden="true">
+                <div class="page-transition-overlay__inner"></div>
+            </div>
+        {% endif %}
         <?php if (is_front_page()) { ?>
             <div class="loading-screen">
                 <div class="logo">

@@ -13,37 +13,41 @@
 			barba.use(barbaPrefetch);
 		}
 
-		/**
-		 * Fade out the current container
-		 */
-		function fadeOut(container) {
-			return gsap.to(container, {
-				autoAlpha: 0,
-				duration: 1.75,
-				ease: 'power2.inOut'
+		const overlay = document.querySelector('.page-transition-overlay');
+
+		function showOverlay() {
+			if (!overlay) {
+				return gsap.to({}, { duration: 0 });
+			}
+			overlay.style.pointerEvents = 'auto';
+			return gsap.to(overlay, {
+				autoAlpha: 1,
+				duration: 0.6,
+				ease: 'power2.out'
 			});
 		}
 
-		/**
-		 * Fade in the new container after all images have loaded
-		 */
-		function fadeIn(container) {
-			gsap.set(container, { autoAlpha: 0 });
-
+		function hideOverlay(container) {
+			if (!overlay) {
+				return;
+			}
 			const imgLoad = imagesLoaded(container);
 
 			return imgLoad.on('done', () => {
-				return gsap.to(container, {
-					autoAlpha: 1,
-					duration: 1.75,
-					ease: 'power2.inOut'
+				return gsap.to(overlay, {
+					autoAlpha: 0,
+					duration: 0.6,
+					ease: 'power2.inOut',
+					onComplete: () => {
+						overlay.style.pointerEvents = 'none';
+					}
 				});
 			});
 		}
 
 		barba.init({
 			transitions: [{
-				name: 'fade-transition',
+				name: 'overlay-transition',
 				leave: ({ current }) => {
 					// Close drawer at the same time as fade out
 					if (jQuery('.drawer').hasClass('active')) {
@@ -51,10 +55,10 @@
 						jQuery('.drawer').fadeOut().removeClass('active');
 						jQuery('body').removeClass('active');
 					}
-					return fadeOut(current.container);
+					return showOverlay();
 				},
 				enter: ({ next }) => {
-					fadeIn(next.container);
+					hideOverlay(next.container);
 				}
 			}]
 		});
