@@ -51,8 +51,8 @@ add_action( 'after_setup_theme', '{{ cookiecutter.theme_slug }}_setup' );
  * @return void
  */
 function {{ cookiecutter.theme_slug }}_scripts() {
-	wp_enqueue_style( 'bootstrap-styles', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), '5.3.1' );
-	// wp_enqueue_style( 'slick-styles', get_template_directory_uri() . '/assets/css/slick.css', array('bootstrap-styles'), '1.8.1' );
+	wp_enqueue_style( 'bootstrap-styles', get_template_directory_uri() . '/assets/css/vendor/bootstrap.min.css', array(), '5.3.1' );
+	// wp_enqueue_style( 'slick-styles', get_template_directory_uri() . '/assets/css/vendor/slick.css', array('bootstrap-styles'), '1.8.1' );
 	wp_enqueue_style( 'styles', get_template_directory_uri() . '/style.css', array('bootstrap-styles'), wp_get_theme()->get( 'Version' ) );
 
 	// wp_enqueue_script( 'inview', get_template_directory_uri() . '/assets/js/vendor/jquery.inview.min.js' , array('jquery') );
