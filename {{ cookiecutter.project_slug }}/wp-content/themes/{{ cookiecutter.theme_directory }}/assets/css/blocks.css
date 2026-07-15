@@ -4,7 +4,30 @@
     /* TODO: Add theme fonts here */
 
     --theme-color-cream: #F8F6F2;
+    --theme-color-charcoal: #23262A;
     /* TODO: Add theme colors here */
+}
+
+/*----------------------------------------------------------------------------
+
+    Page-template color flips (front end + editor)
+
+    Defined HERE, not style.css, because blocks.css is enqueued on BOTH the front
+    end (enqueue_block_assets) and the editor — so one rule covers both contexts.
+    On the front end WordPress core adds the `page-template-*` class to <body>
+    automatically; in the editor, editor.js mirrors it onto the canvas. Two
+    selectors so the rule wins over the base body color in each context:
+      - `body.…`                    beats the element-level default on the front end
+      - `.editor-styles-wrapper.…`  beats theme.json's editor default in the editor
+
+    To add another flip template: create `page-<slug>.php` (with a Template Name
+    header) and copy this rule with `page-template-page-<slug>`. No JS changes —
+    editor.js is generic.
+----------------------------------------------------------------------------*/
+body.page-template-page-dark-background,
+.editor-styles-wrapper.page-template-page-dark-background {
+    background-color: var(--theme-color-charcoal);
+    color: var(--theme-color-cream);
 }
 
 .entry-content p.is-style-cormorant-garamond-12,

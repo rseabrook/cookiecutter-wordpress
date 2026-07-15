@@ -24,13 +24,15 @@
                 <div class="page-transition-overlay__inner"></div>
             </div>
         {% endif %}
-        <?php if (is_front_page()) { ?>
+        {% if cookiecutter.enable_animations %}
+        <?php if ( is_front_page() ) { ?>
             <div class="loading-screen">
-                <div class="logo">
-                    <?php echo file_get_contents( get_stylesheet_directory_uri() . '/assets/images/wordmark.svg' ); ?>
+                <div class="loading-screen__icon">
+                    <?php echo file_get_contents( get_template_directory() . '/assets/images/wordmark.svg' ); ?>
                 </div>
             </div>
         <?php } ?>
+        {% endif %}
         <div class="drawer" style="display: none;">
             <div class="drawer-inner d-flex flex-column">
                 <div class="menu-section--primary">
@@ -42,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div id="page" class="site"{% if cookiecutter.enable_animations %} data-barba="container" data-barba-namespace="<?php echo {{ cookiecutter.theme_slug }}_get_barba_namespace(); ?>"{% endif %}>
+        <div id="page" class="site"{% if cookiecutter.enable_animations %} data-barba="container" data-barba-namespace="<?php echo {{ cookiecutter.theme_slug }}_get_barba_namespace(); ?>" data-body-class="<?php echo esc_attr( implode( ' ', get_body_class() ) ); ?>"{% endif %}>
             <header id="masthead" class="header" role="banner">
                 <div class="container-fluid">
                     <div class="row">

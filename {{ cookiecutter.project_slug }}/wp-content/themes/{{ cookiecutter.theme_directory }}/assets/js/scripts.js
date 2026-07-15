@@ -13,12 +13,32 @@
 			barba.use(barbaPrefetch);
 		}
 
+		// Remove the homepage loading screen once it has finished fading out (the
+		// CSS holds it hidden + click-through via `forwards`; this just drops the
+		// node so it can't trap focus/pointer events). Filter to the screen's own
+		// animation so the icon's bubbled fade-in animationend doesn't remove it early.
+		const loadingScreen = document.querySelector('.loading-screen');
+		if (loadingScreen) {
+			loadingScreen.addEventListener('animationend', function(e) {
+				if (e.target === loadingScreen && e.animationName === 'loadingScreenFadeOut') {
+					loadingScreen.remove();
+				}
+			});
+		}
+
 		const overlay = document.querySelector('.page-transition-overlay');
+		let currentBgColor = null;
+		let newBgColor = null;
 
 		function showOverlay() {
 			if (!overlay) {
 				return gsap.to({}, { duration: 0 });
 			}
+			// Capture the leaving page's background color so the overlay can
+			// smoothly cross-fade to the next page's background (e.g. when a page
+			// template flips the palette). beforeEnter reads the new color below.
+			currentBgColor = getComputedStyle(document.body).backgroundColor;
+			overlay.style.backgroundColor = currentBgColor;
 			overlay.style.pointerEvents = 'auto';
 			return gsap.to(overlay, {
 				autoAlpha: 1,
@@ -33,8 +53,25 @@
 			}
 			const imgLoad = imagesLoaded(container);
 
-			return imgLoad.on('done', () => {
-				return gsap.to(overlay, {
+			// Use 'always' (fires after every image loads OR fails) rather than
+			// 'done' (success only). A single broken/empty-src image would
+			// otherwise never fire 'done', leaving the overlay stuck on screen and
+			// freezing the transition. A hard refresh would work (it bypasses
+			// Barba) but in-site navigation would appear broken.
+			return imgLoad.on('always', () => {
+				const tl = gsap.timeline();
+
+				// Animate the overlay's background color when it differs between
+				// pages, then fade the overlay out to reveal the new page.
+				if (currentBgColor && newBgColor && currentBgColor !== newBgColor) {
+					tl.to(overlay, {
+						backgroundColor: newBgColor,
+						duration: 0.8,
+						ease: 'power2.inOut'
+					});
+				}
+
+				tl.to(overlay, {
 					autoAlpha: 0,
 					duration: 0.6,
 					ease: 'power2.inOut',
@@ -42,6 +79,8 @@
 						overlay.style.pointerEvents = 'none';
 					}
 				});
+
+				return tl;
 			});
 		}
 
@@ -67,24 +106,56 @@
 			// Reset scroll position while container is hidden
 			window.scrollTo(0, 0);
 
-			// Add new elements to the head that are not in the current head
+			// Strip <noscript> blocks before parsing. DOMParser parses with the
+			// scripting flag disabled, so <noscript> contents are tokenized as
+			// real elements; anything not valid inside <head> would implicitly
+			// close <head> and break head sync. They're identical on every page
+			// and already present from the initial load, so we don't need them.
+			const sanitizedHtml = data.next.html.replace(/<noscript\b[^>]*>[\s\S]*?<\/noscript>/gi, '');
+			const nextDocument = new DOMParser().parseFromString(sanitizedHtml, 'text/html');
+
+			// Replace per-page <head> singletons (title, canonical, description,
+			// Open Graph, Twitter card) so SEO/social tags reflect the new page.
+			const replaceSelector = [
+				'title',
+				'link[rel="canonical"]',
+				'meta[name="description"]',
+				'meta[property^="og:"]',
+				'meta[name^="twitter:"]',
+			].join(', ');
+			document.head.querySelectorAll(replaceSelector).forEach((el) => el.remove());
+			nextDocument.head.querySelectorAll(replaceSelector).forEach((newEl) => {
+				document.head.appendChild(newEl.cloneNode(true));
+			});
+
+			// Additively add any other new head elements not already present
+			// (e.g. block CSS that WordPress enqueues only on certain pages).
 			const elementExistsInArray = (element, array) =>
 				array.some((el) => el.isEqualNode(element));
-
-			const nextDocument = new DOMParser().parseFromString(data.next.html, 'text/html');
 			const newHeadElements = [...nextDocument.head.children];
 			const currentHeadElements = [...document.head.children];
-
-			// Add new elements that are not in the current head
 			newHeadElements.forEach((newEl) => {
+				if (newEl.matches(replaceSelector)) return;
 				if (!elementExistsInArray(newEl, currentHeadElements)) {
 					document.head.appendChild(newEl.cloneNode(true));
 				}
 			});
+
+			// Sync <body> classes from the incoming container's data attribute.
+			// Barba only swaps the container, never <body>, so page-specific body
+			// classes (page templates, is_front_page, etc.) would otherwise keep
+			// the first-loaded page's values on in-site navigation. Then read the
+			// new background color for the overlay cross-fade above.
+			const newBodyClasses = data.next.container.dataset.bodyClass;
+			if (newBodyClasses) {
+				document.body.className = newBodyClasses;
+			}
+			newBgColor = getComputedStyle(document.body).backgroundColor;
 		});
 
 		barba.hooks.afterEnter(() => {
 			// Re-initialize scripts that may have been destroyed by the transition
+			// (sliders, masonry, etc.). Tear those down in barba.hooks.beforeLeave.
 		});
 		{% endif %}
 

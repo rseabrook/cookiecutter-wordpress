@@ -43,13 +43,19 @@ Text Domain: {{ cookiecutter.theme_slug }}
     --font-icons: 'gadabout-icons';
 
     --theme-color-cream: #F8F6F2;
+    --theme-color-charcoal: #23262A;
     /* TODO: Add theme colors here */
 }
 
 /*----------------------------------------------------------------------------
-	
+
 	General
-	
+
+	Note: the default background/text colors (cream / charcoal) are set in
+	theme.json (styles.color) so they apply to BOTH the front end and the block
+	editor. Don't duplicate them on `body` here. Page-template color flips live
+	in blocks.css (loads in both contexts) — see that file.
+
 ----------------------------------------------------------------------------*/
 body {
     -webkit-font-smoothing: antialiased;
@@ -81,6 +87,48 @@ body {
 }
 .page-transition-overlay__inner {
     pointer-events: none;
+}
+
+/*----------------------------------------------------------------------------
+
+	Loading Screen (front page, first load only)
+
+	Full-viewport cover shown on the initial homepage load: the centered wordmark
+	fades in, then the whole screen fades out to reveal the page. Pure CSS
+	keyframes — scripts.js just removes the node once it has faded. It's rendered
+	outside the Barba container (see header.php) so it only appears on the first
+	server render, not on in-site navigations. Recolor to taste.
+
+----------------------------------------------------------------------------*/
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 32px;
+    background-color: var(--theme-color-cream);
+    color: var(--theme-color-charcoal);
+    animation: loadingScreenFadeOut 1.5s ease 2.5s forwards;
+}
+.loading-screen__icon {
+    width: min(70vw, 480px);
+    opacity: 0;
+    animation: loadingIconFadeIn 1.5s ease 0.5s forwards;
+}
+.loading-screen__icon svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+@keyframes loadingIconFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes loadingScreenFadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 {% endif %}
 

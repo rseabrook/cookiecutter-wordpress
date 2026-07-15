@@ -174,6 +174,26 @@ function {{ cookiecutter.theme_slug }}_enqueue_block_assets() {
 }
 add_action( 'enqueue_block_assets', '{{ cookiecutter.theme_slug }}_enqueue_block_assets' );
 
+/**
+ * Enqueue block-editor-only assets.
+ *
+ * editor.js mirrors the selected page template's `page-template-*` class onto
+ * the editor canvas so template color flips (defined in assets/css/blocks.css)
+ * preview while editing, matching the front end.
+ *
+ * @return void
+ */
+function {{ cookiecutter.theme_slug }}_enqueue_block_editor_assets() {
+	wp_enqueue_script(
+		'{{ cookiecutter.theme_slug }}-editor',
+		get_stylesheet_directory_uri() . '/assets/js/editor.js',
+		array( 'wp-data' ),
+		filemtime( get_stylesheet_directory() . '/assets/js/editor.js' ),
+		true
+	);
+}
+add_action( 'enqueue_block_editor_assets', '{{ cookiecutter.theme_slug }}_enqueue_block_editor_assets' );
+
 function {{ cookiecutter.theme_slug }}_register_block_styles() {
 	register_block_style( 'core/paragraph', array(
 		'name' => 'cormorant-garamond-12',
