@@ -88,11 +88,11 @@
 			transitions: [{
 				name: 'overlay-transition',
 				leave: ({ current }) => {
-					// Close drawer at the same time as fade out
+					// Close the drawer (if open) as the overlay fades in.
+					// closeDrawer() is defined in the Nav Drawer section below;
+					// function declarations hoist within this ready() scope.
 					if (jQuery('.drawer').hasClass('active')) {
-						jQuery('.toggler').removeClass('active');
-						jQuery('.drawer').fadeOut().removeClass('active');
-						jQuery('body').removeClass('active');
+						closeDrawer();
 					}
 					return showOverlay();
 				},
@@ -160,15 +160,35 @@
 		{% endif %}
 
 		/*-------------------------------------
-			
+
 			Nav Drawer
-			
+
 		-------------------------------------*/
-		$('.header .toggler').on('click', function() {
-            $(this).toggleClass('active');
-            $('.drawer').fadeToggle().css('display', 'flex');
-			$('.drawer').toggleClass('active');
-			$('body').toggleClass('active');
+		// Delegated bindings so they survive Barba container swaps.
+		// The hamburger opens the drawer; the in-drawer X (and Escape) closes it.
+		function closeDrawer() {
+			$('.header__toggler').removeClass('active').attr('aria-expanded', 'false').trigger('focus');
+			$('.drawer').fadeOut().removeClass('active');
+			$('body').removeClass('active');
+		}
+
+		$(document).on('click', '.header__toggler', function() {
+			$(this).addClass('active').attr('aria-expanded', 'true');
+			$('.drawer').css('display', 'flex').hide().fadeIn(function() {
+				$('.drawer__close').trigger('focus'); // move focus into the drawer
+			}).scrollTop(0).addClass('active');
+			$('body').addClass('active');
+		});
+
+		$(document).on('click', '.drawer__close', function() {
+			closeDrawer();
+		});
+
+		// Escape closes the drawer (a11y).
+		$(document).on('keydown', function(e) {
+			if (e.key === 'Escape' && $('.drawer').hasClass('active')) {
+				closeDrawer();
+			}
 		});
 		
 		/*-------------------------------------

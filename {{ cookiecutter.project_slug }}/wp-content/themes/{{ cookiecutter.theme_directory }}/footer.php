@@ -12,16 +12,12 @@
 ?>
             </div><!-- #content -->
             <footer id="colophon" class="footer" role="contentinfo">
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                <span>&copy; <?php echo date('Y'); ?> <?php echo bloginfo('name'); ?></span>
-                                <span class="sep">|</span>
-                                <span>Made by <a href="https://www.gadaboutcreative.com/" target="_blank">Gadabout</a></span>
-                            </p>
-                        </div>
-                    </div>
+                <div class="footer__inner">
+                    <?php {{ cookiecutter.theme_slug }}_brand_link( 'footer__wordmark' ); ?>
+                    <p class="footer__credits">
+                        <span class="footer__copyright">&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
+                        <a class="footer__site-credits" href="https://www.gadaboutcreative.com/" target="_blank" rel="noopener">Site Credits</a>
+                    </p>
                 </div>
             </footer>
         </div><!-- #page -->

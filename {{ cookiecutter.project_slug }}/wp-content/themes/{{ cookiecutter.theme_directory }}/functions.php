@@ -38,7 +38,7 @@ if ( ! function_exists( '{{ cookiecutter.theme_slug }}_setup' ) ) {
 		register_nav_menus(
 			array(
                 'primary' => esc_html__( 'Primary', '{{ cookiecutter.theme_slug }}' ),
-				'footer' => esc_html__( 'Footer', '{{ cookiecutter.theme_slug }}' ),
+				'mobile' => esc_html__( 'Mobile', '{{ cookiecutter.theme_slug }}' ),
 			)
 		);
     }
@@ -73,8 +73,30 @@ function {{ cookiecutter.theme_slug }}_scripts() {
 add_action( 'wp_enqueue_scripts', '{{ cookiecutter.theme_slug }}_scripts' );
 
 /**
+ * Render the site wordmark, inlining the SVG so its `fill="currentColor"` can be
+ * styled by CSS. Links to home on inner pages; on the front page it renders a
+ * non-linked <span> so clicking it doesn't re-trigger the loading screen /
+ * Barba transition to a page you're already on.
+ *
+ * @param string $class    Class name for the wrapping element.
+ * @param string $svg_file SVG filename in assets/images/. Defaults to the wordmark.
+ * @return void
+ */
+function {{ cookiecutter.theme_slug }}_brand_link( $class, $svg_file = 'wordmark.svg' ) {
+	$svg   = file_get_contents( get_template_directory() . '/assets/images/' . $svg_file );
+	$label = esc_attr( get_bloginfo( 'name' ) );
+
+	if ( is_front_page() ) {
+		printf( '<span class="%s" aria-label="%s">%s</span>', esc_attr( $class ), $label, $svg );
+		return;
+	}
+
+	printf( '<a href="%s" class="%s" aria-label="%s">%s</a>', esc_url( home_url( '/' ) ), esc_attr( $class ), $label, $svg );
+}
+
+/**
  * Add custom classes to the array of body classes.
- * 
+ *
  * @param array $classes Classes for the body element.
  * @return array
  */

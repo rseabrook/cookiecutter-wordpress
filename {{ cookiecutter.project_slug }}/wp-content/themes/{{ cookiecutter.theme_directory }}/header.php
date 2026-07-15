@@ -34,22 +34,38 @@
         <?php } ?>
         {% endif %}
         <div class="drawer" style="display: none;">
-            <div class="drawer-inner d-flex flex-column">
-                <div class="menu-section--primary">
+            <button class="drawer__close" type="button" aria-label="Close menu">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <path d="M4 4 L24 24 M24 4 L4 24" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+                </svg>
+            </button>
+            <div class="drawer__inner">
+                <?php {{ cookiecutter.theme_slug }}_brand_link( 'drawer__wordmark' ); ?>
+                <nav class="drawer__nav" aria-label="Primary">
                     <?php wp_nav_menu( array(
-                        'theme_location' => 'primary',
-                        'container' => false,
-                        'menu_class' => 'menu'
+                        'theme_location' => 'mobile',
+                        'container'      => false,
+                        'menu_class'     => 'drawer__menu',
+                        'fallback_cb'    => false,
                     ) ); ?>
-                </div>
+                </nav>
             </div>
         </div>
         <div id="page" class="site"{% if cookiecutter.enable_animations %} data-barba="container" data-barba-namespace="<?php echo {{ cookiecutter.theme_slug }}_get_barba_namespace(); ?>" data-body-class="<?php echo esc_attr( implode( ' ', get_body_class() ) ); ?>"{% endif %}>
             <header id="masthead" class="header" role="banner">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- TODO: Create header -->
-                    </div>
+                <div class="header__inner">
+                    <?php {{ cookiecutter.theme_slug }}_brand_link( 'header__wordmark' ); ?>
+                    <nav class="header__nav" aria-label="Primary">
+                        <?php wp_nav_menu( array(
+                            'theme_location' => 'primary',
+                            'container'      => false,
+                            'menu_class'     => 'header__menu',
+                            'fallback_cb'    => false,
+                        ) ); ?>
+                    </nav>
+                    <button class="header__toggler" type="button" aria-label="Menu" aria-expanded="false">
+                        <span></span><span></span>
+                    </button>
                 </div>
             </header>
             <div id="content" class="site-content">
