@@ -128,17 +128,72 @@
 				document.head.appendChild(newEl.cloneNode(true));
 			});
 
-			// Additively add any other new head elements not already present
-			// (e.g. block CSS that WordPress enqueues only on certain pages).
-			const elementExistsInArray = (element, array) =>
-				array.some((el) => el.isEqualNode(element));
-			const newHeadElements = [...nextDocument.head.children];
-			const currentHeadElements = [...document.head.children];
-			newHeadElements.forEach((newEl) => {
+			// Sync stylesheets and inline <style> blocks by IDENTITY, not additively.
+			// WordPress emits page-specific inline styles (global-styles-inline-css,
+			// core-block-supports-inline-css, per-block styles) under STABLE ids whose
+			// CONTENT varies per page. Only-adding-if-absent never replaced or removed
+			// them, so stale/duplicate blocks piled up across navigations and won the
+			// cascade. Key each <style> by id and each stylesheet <link> by href; add
+			// new ones, replace changed inline styles, and drop ones the next page lacks.
+			const keyOf = (el) => {
+				if (el.id) return 'id:' + el.id;
+				if (el.tagName === 'LINK') {
+					const href = el.getAttribute('href');
+					if (href) return 'href:' + new URL(href, location.href).href;
+				}
+				return null;
+			};
+			const styleLinkSelector = 'style, link[rel="stylesheet"]';
+			const nextStyleEls = [...nextDocument.head.querySelectorAll(styleLinkSelector)];
+			const nextKeys = new Set(nextStyleEls.map(keyOf).filter(Boolean));
+
+			// Remove current keyed style/link elements the next page doesn't have.
+			document.head.querySelectorAll(styleLinkSelector).forEach((el) => {
+				const k = keyOf(el);
+				if (k && !nextKeys.has(k)) el.remove();
+			});
+
+			// Add new, or replace changed, keyed elements — in document order, so
+			// dependencies (global styles defining --wp--preset--* custom properties)
+			// are present before dependents (block-supports styles that reference them).
+			// Matching <link> stylesheets are left untouched to avoid a re-fetch flash.
+			nextStyleEls.forEach((newEl) => {
+				const k = keyOf(newEl);
+				if (!k) {
+					if (![...document.head.querySelectorAll('style')].some((el) => el.isEqualNode(newEl))) {
+						document.head.appendChild(newEl.cloneNode(true));
+					}
+					return;
+				}
+				const existing = k.indexOf('id:') === 0
+					? document.getElementById(newEl.id)
+					: [...document.head.querySelectorAll('link[rel="stylesheet"]')].find((el) => keyOf(el) === k);
+				if (!existing) {
+					document.head.appendChild(newEl.cloneNode(true));
+				} else if (existing.tagName === 'STYLE' && existing.textContent !== newEl.textContent) {
+					existing.replaceWith(newEl.cloneNode(true));
+				}
+			});
+
+			// Additively add any remaining non-stylesheet head elements the new page
+			// introduces (preconnects, extra meta, etc.) that aren't already present.
+			nextDocument.head.querySelectorAll(':scope > :not(style):not(link[rel="stylesheet"])').forEach((newEl) => {
 				if (newEl.matches(replaceSelector)) return;
-				if (!elementExistsInArray(newEl, currentHeadElements)) {
+				if (![...document.head.children].some((el) => el.isEqualNode(newEl))) {
 					document.head.appendChild(newEl.cloneNode(true));
 				}
+			});
+
+			// Force block-supports inline styles to re-parse against the now-complete
+			// cascade. Their layout rules use gap: <n> var(--wp--preset--spacing--*); if
+			// the block parsed while those custom properties weren't yet defined, the
+			// browser locks the shorthand to its fallback (e.g. a two-column gap collapses
+			// to a single value) and never recovers on its own. Re-inserting a fresh clone
+			// re-resolves the var() now that the global styles are in place.
+			document.head.querySelectorAll('style[id$="block-supports-inline-css"]').forEach((el) => {
+				const fresh = el.cloneNode(true);
+				el.remove();
+				document.head.appendChild(fresh);
 			});
 
 			// Sync <body> classes from the incoming container's data attribute.
