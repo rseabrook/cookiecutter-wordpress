@@ -223,3 +223,22 @@ function {{ cookiecutter.theme_slug }}_register_block_styles() {
 	) );
 }
 add_action( 'init', '{{ cookiecutter.theme_slug }}_register_block_styles' );
+
+/**
+ * Register custom blocks.
+ *
+ * These are the example/grid + example/card starter blocks (see the blocks/
+ * directory). They use a build step — run `npm install && npm run build` in the
+ * theme first — so registration is guarded on the compiled output existing.
+ * Copy blocks/grid + blocks/card, rename them, and add them here for real blocks.
+ */
+function {{ cookiecutter.theme_slug }}_register_blocks() {
+	$blocks = array( 'card', 'grid' ); // child before parent
+	foreach ( $blocks as $block ) {
+		$dir = get_template_directory() . '/blocks/' . $block;
+		if ( file_exists( $dir . '/build/index.js' ) ) {
+			register_block_type( $dir );
+		}
+	}
+}
+add_action( 'init', '{{ cookiecutter.theme_slug }}_register_blocks' );

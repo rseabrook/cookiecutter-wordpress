@@ -45,3 +45,35 @@ body.page-template-page-dark-background,
         letter-spacing: 1px;
     }
 }
+
+/*----------------------------------------------------------------------------
+
+    Example Grid / Example Card (starter custom blocks)
+
+    Loaded in both the editor and the front end (enqueue_block_assets), so the
+    editor preview matches the front end. The grid is a custom CSS grid (not
+    WordPress layout), so the column/row gap comes from the block-spacing control
+    wired by hand in index.js + render.php (falls back to 32px). The column count
+    is a reactive class (has-N-columns), not a CSS var, so the editor updates live.
+
+----------------------------------------------------------------------------*/
+.example-grid__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+@media (min-width: 768px) {
+    .example-grid.has-2-columns .example-grid__inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .example-grid.has-3-columns .example-grid__inner {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+.example-card {
+    padding: 24px;
+    border: 1px solid currentColor;
+}
+.example-card__content {
+    margin: 0;
+}

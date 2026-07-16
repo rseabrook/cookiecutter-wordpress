@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "example/grid",
+	"version": "1.0.0",
+	"title": "Example Grid",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Starter PARENT block: a responsive grid of Example Card children. Demonstrates InnerBlocks, a reactive class, and manual block-gap wiring. Copy and rename for your own block.",
+	"attributes": {
+		"columns": { "type": "number", "default": 2 }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		}
+	},
+	"textdomain": "example",
+	"editorScript": "file:./build/index.js",
+	"render": "file:./render.php"
+}

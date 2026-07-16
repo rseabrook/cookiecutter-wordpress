@@ -1,0 +1,4 @@
+# Node dependencies for the custom-block build step.
+# NOTE: commit blocks/*/build/ — many hosts (e.g. WP Engine) deploy via git and
+# do not run a build step, so the compiled block JS must be in the repo.
+/node_modules/

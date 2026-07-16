@@ -1,0 +1,17 @@
+{
+  "name": "{{ cookiecutter.theme_slug }}-blocks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Custom block build for the {{ cookiecutter.project_name }} theme (@wordpress/scripts).",
+  "scripts": {
+    "build": "npm run build:card && npm run build:grid",
+    "build:card": "wp-scripts build ./blocks/card/index.js --output-path=./blocks/card/build",
+    "build:grid": "wp-scripts build ./blocks/grid/index.js --output-path=./blocks/grid/build",
+    "start:card": "wp-scripts start ./blocks/card/index.js --output-path=./blocks/card/build",
+    "start:grid": "wp-scripts start ./blocks/grid/index.js --output-path=./blocks/grid/build"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.24.0",
+    "@wordpress/scripts": "^28.0.0"
+  }
+}

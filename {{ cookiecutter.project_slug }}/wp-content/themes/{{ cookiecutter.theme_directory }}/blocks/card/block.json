@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "example/card",
+	"version": "1.0.0",
+	"title": "Example Card",
+	"category": "design",
+	"icon": "media-default",
+	"description": "Starter child block. Only insertable inside an Example Grid. Copy and rename for your own block.",
+	"parent": [ "example/grid" ],
+	"attributes": {
+		"content": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"textdomain": "example",
+	"editorScript": "file:./build/index.js",
+	"render": "file:./render.php"
+}

@@ -59,6 +59,13 @@
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--cormorant-garamond)"
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--cormorant-garamond)"
+				}
+			}
 		}
 	}
 }

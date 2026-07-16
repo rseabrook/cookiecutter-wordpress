@@ -12,3 +12,8 @@
 - Create post templates as needed
 - Set favicon in customizer
 - Generate favicon package using https://realfavicongenerator.net/
+- Custom blocks: run `npm install && npm run build` in the theme to compile the
+  example blocks (blocks/grid + blocks/card). They only register once built.
+  Commit blocks/*/build/ (git-deploy hosts like WP Engine don't run a build).
+  Copy blocks/grid + blocks/card and rename them as the starting point for real
+  blocks; delete the examples if you don't need custom blocks.
