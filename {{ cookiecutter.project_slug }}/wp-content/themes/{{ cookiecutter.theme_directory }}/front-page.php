@@ -14,7 +14,6 @@ get_header(); ?>
         $section_1_image = get_field( 'section_1_image', 'options' );
         $section_1_image_url = $section_1_image['sizes'][ 'large' ];
         $args = array(
-            'section_classes' => 'py-sm-5',
             'image_url' => $section_1_image_url,
         );
         get_template_part( 'template-parts/sections/image-banner', null, $args );

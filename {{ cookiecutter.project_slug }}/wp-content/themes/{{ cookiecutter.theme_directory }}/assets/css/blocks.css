@@ -37,7 +37,7 @@ body.page-template-page-dark-background,
     letter-spacing: 1px;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 600px) {
     .entry-content p.is-style-cormorant-garamond-12,
     .editor-styles-wrapper p.is-style-cormorant-garamond-12 {
         font-family: var(--font-cormorant-garamond);
@@ -62,7 +62,7 @@ body.page-template-page-dark-background,
     grid-template-columns: 1fr;
     gap: 32px;
 }
-@media (min-width: 768px) {
+@media (min-width: 782px) {
     .example-grid.has-2-columns .example-grid__inner {
         grid-template-columns: repeat(2, 1fr);
     }

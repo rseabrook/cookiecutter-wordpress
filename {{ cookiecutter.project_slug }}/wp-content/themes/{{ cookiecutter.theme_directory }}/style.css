@@ -49,6 +49,35 @@ Text Domain: {{ cookiecutter.theme_slug }}
 
 /*----------------------------------------------------------------------------
 
+	Base
+
+	Minimal base styles (the theme has no CSS reset/normalize dependency).
+	WordPress's global styles handle the body margin; extend this section as
+	needed rather than pulling in a reset package.
+
+----------------------------------------------------------------------------*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+img,
+svg,
+video {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-block: 0 0.5rem;
+}
+p,
+figure {
+    margin-block: 0 1rem;
+}
+
+/*----------------------------------------------------------------------------
+
 	General
 
 	Note: the default background/text colors (cream / charcoal) are set in
@@ -67,6 +96,16 @@ body.active {
 .aligncenter {
     margin-left: auto;
     margin-right: auto;
+}
+/*
+ * Centered content column for classic-PHP templates. Width follows
+ * theme.json's layout.contentSize so PHP templates and block content share
+ * the same measure.
+ */
+.site-container {
+    max-width: var(--wp--style--global--content-size, 840px);
+    margin-inline: auto;
+    padding-inline: var(--wp--preset--spacing--50, 24px);
 }
 
 
@@ -136,10 +175,67 @@ body.active {
 {% endif %}
 
 /*----------------------------------------------------------------------------
-	
+
 	Template Parts
-	
+
 ----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+
+	Post Grid (template-parts/components/post-grid.php + cards/post.php)
+
+	Two columns on mobile, four from 782px (WP core breakpoint). Starter
+	styles — adjust columns/gap per project.
+
+----------------------------------------------------------------------------*/
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--wp--preset--spacing--50, 24px);
+}
+@media screen and (min-width: 782px) {
+    .post-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+.post-card-inner {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+.post-card__image {
+    aspect-ratio: 3 / 4;
+    margin-bottom: 16px;
+    background-size: cover;
+    background-position: center;
+}
+.post-card__title {
+    margin-block: 0 24px;
+}
+.results-message {
+    text-align: center;
+}
+@media screen and (min-width: 600px) {
+    .post-card__title {
+        margin-block: 0 16px;
+    }
+}
+
+/*----------------------------------------------------------------------------
+
+	Image Banner (template-parts/sections/image-banner.php)
+
+----------------------------------------------------------------------------*/
+.section__image-banner-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+@media screen and (min-width: 600px) {
+    .section__image-banner {
+        padding-block: 48px;
+    }
+}
 
 /*----------------------------------------------------------------------------
 
@@ -147,7 +243,7 @@ body.active {
 
 	Horizontal row: wordmark left, primary menu right on desktop; wordmark left
 	+ hamburger right on mobile. Chrome uses `color: inherit` so it follows the
-	body text color (and any page-template color flip). Desktop breakpoint 992px.
+	body text color (and any page-template color flip). Desktop breakpoint 782px (WP core).
 
 ----------------------------------------------------------------------------*/
 .header {
@@ -225,7 +321,7 @@ body.active {
     transform: translateY(-3.5px) rotate(-45deg);
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 782px) {
     .header__inner {
         padding: 40px 48px;
     }
@@ -316,7 +412,7 @@ body.active {
 
 	Footer
 
-	Mobile: copyright left + credits right (wordmark hidden). Desktop (992px+):
+	Mobile: copyright left + credits right (wordmark hidden). Desktop (782px+):
 	wordmark left, credits right. Chrome uses `color: inherit`.
 
 ----------------------------------------------------------------------------*/
@@ -350,7 +446,7 @@ body.active {
     opacity: 0.65;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 782px) {
     .footer__inner {
         gap: 32px;
         padding: 40px 48px;

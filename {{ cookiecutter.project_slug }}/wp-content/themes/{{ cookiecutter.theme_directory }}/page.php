@@ -16,23 +16,19 @@ get_header(); ?>
 
     <div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col">
+            <div class="site-container">
 
-                        <?php
-                        while ( have_posts() ) : the_post();
-                        ?>
-                            <div class="entry-content">
-                                <?php the_content(); ?>
-                            </div><!-- .entry-content -->
+                <?php
+                while ( have_posts() ) : the_post();
+                ?>
+                    <div class="entry-content">
+                        <?php the_content(); ?>
+                    </div><!-- .entry-content -->
 
-                        <?php
-                        endwhile; // End of the loop.
-                        ?>
+                <?php
+                endwhile; // End of the loop.
+                ?>
 
-                    </div>
-                </div>
             </div>
 
 		</main><!-- #main -->

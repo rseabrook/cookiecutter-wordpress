@@ -14,26 +14,20 @@ get_header(); ?>
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-        <div class="container">
-            <div class="row">
+        <div class="site-container">
 
-                <?php
-                if ( have_posts() ) {
-                    // Load posts loop.
-                    while ( have_posts() ) {
-                        the_post();
+            <?php
+            if ( have_posts() ) {
 
-                        get_template_part( 'template-parts/content', 'excerpt' );
-                    }
+                get_template_part( 'template-parts/components/post-grid' );
 
-                } else {
+            } else {
 
-                    // If no content, include the "No posts found" template.
-                    get_template_part( 'template-parts/content/content-none' );
+                // If no content, include the "No posts found" template.
+                get_template_part( 'template-parts/content/content-none' );
 
-                } ?>
+            } ?>
 
-            </div>
         </div>
 
     </main><!-- #main -->
